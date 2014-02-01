@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-1 -*-
 
-infile='GDS4467.txt'
+infile='database.uncompressed'
 
 fh = open(infile)
 
@@ -21,20 +21,23 @@ for title in header.split('\t'):
 
 
 #open our output files, one per table.
-genefile=open('genes.txt', 'w')
+genefile=open('gene.txt', 'w')
 expressionfile=open('expression.txt','w')
-probefile=open('probes.txt', 'w')
+probefile=open('probe.txt', 'w')
 
+#splits the data from the tables into seperate colums
 genefields=['Gene ID', 'Gene symbol', 'Gene title']
 samples=header.split('\t')[2:int(colnames['Gene title'])]
 probefields=['ID_REF','Gene ID']
 
+#creates new rows when required
 def buildrow(row, fields):
     newrow=[]
     for f in fields:
         newrow.append(row[int(colnames[f])])
     return "\t".join(newrow)+"\n"
 
+#creates new rows for displayed samples
 def build_expression(row, samples):
     exprrows=[]
     for s in samples:

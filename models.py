@@ -36,10 +36,12 @@ class Gene():
 	self.gene_title	=result[0]
         self.gene_symbol=result[1]
         #now fetch the probes..
-        probesql='select probeid from probe where geneid=%s'
+        probesql='select probe_name from probe where gene=%s'
 	#fill in the blanks yourself
-
+	cursor.execute(probesql,(geneid,))
 
 	for result in cursor.fetchall():
   	    self.probelist.append(result[0])
+
+
 

@@ -1,8 +1,10 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-1 -*-
 
+#defines file containing dataset
 infile='database.uncompressed'
 
+#opens the file containing dataset
 fh = open(infile)
 
 line= fh.readline()
@@ -25,19 +27,19 @@ genefile=open('gene.txt', 'w')
 expressionfile=open('expression.txt','w')
 probefile=open('probe.txt', 'w')
 
-#splits the data from the tables into seperate colums
+#splits the data from the tables into seperate, defined colums
 genefields=['Gene ID', 'Gene symbol', 'Gene title']
 samples=header.split('\t')[2:int(colnames['Gene title'])]
 probefields=['ID_REF','Gene ID']
 
-#creates new rows when required
+#a function to create new rows when required
 def buildrow(row, fields):
     newrow=[]
     for f in fields:
         newrow.append(row[int(colnames[f])])
     return "\t".join(newrow)+"\n"
 
-#creates new rows for displayed samples
+#takes data from dataset and adds it to created files
 def build_expression(row, samples):
     exprrows=[]
     for s in samples:
@@ -47,6 +49,8 @@ def build_expression(row, samples):
 	exprrows.append("\t".join(newrow))
     return "\n".join(exprrows)+"\n"
 rows=0    
+
+#try/except for error checking
 for line in fh.readlines():
     try:
         if line[0]=='!':
@@ -58,9 +62,12 @@ for line in fh.readlines():
 	rows=rows+1
     except:
 	pass
+
+#closes created files
 genefile.close()
 probefile.close()
 expressionfile.close()
 
+#displays the number of created rows
 print '%s rows processed'%rows
     

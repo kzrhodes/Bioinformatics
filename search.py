@@ -1,6 +1,11 @@
 # -*- coding: iso-8859-1 -*-
 #imports models script
-import models
+import os
+
+from mod_python import apache
+
+directory = os.path.dirname(__file__)
+models = apache.import_module('modules', path=[directory])
 
 Gene = models.Gene(%s)
 
